@@ -1,0 +1,9 @@
+const roles = [
+  { dates:'Jul – Sep 2026', role:'Machine Learning Intern', company:'Codtech IT Solutions Private Limited', period:'12 Jul – 06 Sep 2026 · Remote', description:'Built a Rossmann sales forecasting pipeline: cleaned retail data, engineered time-series features, checked for leakage, compared regression models, and presented results in a seven-page Streamlit dashboard. Diagnosed recursive forecast error and revised the backtest using frozen history.', tags:['Python & Pandas','Forecasting','Streamlit'] },
+  { dates:'Dec 2025 – Jan 2026', role:'AI Engineer Intern', company:'TechGeekConnect Technologies LLP', period:'22 Dec 2025 – 31 Jan 2026 · Six weeks', description:'Worked on an AI web application using Python, React.js, generative AI, LLMs, and Streamlit. Practised application development and collaboration across the AI and web stack.', tags:['Python & React.js','Generative AI','LLM applications'] },
+];
+export default function Experience() {
+  return <section id="experience" className="section-shell"><div className="section-heading"><div><p className="eyebrow">03 / Experience</p><h2>Putting it<br/><span className="gradient-text">into practice.</span></h2></div><p className="font-mono text-xs uppercase tracking-wider text-zinc-500">Two completed internships</p></div>
+    {roles.map((r,i)=><article key={r.company} className="grid gap-6 border-t border-black/[0.08] py-10 md:grid-cols-[1fr_2fr]"><div><span className="font-mono text-xs text-flame">0{i+1}</span><p className="mt-3 text-lg font-medium">{r.dates}</p></div><div><h3 className="text-2xl font-semibold tracking-tight">{r.role}</h3><p className="mt-2 text-base font-medium text-plasma">{r.company}</p><p className="mt-2 text-sm text-zinc-500">{r.period}</p><p className="my-5 max-w-2xl text-base leading-relaxed text-zinc-600">{r.description}</p><ul className="flex flex-wrap gap-2">{r.tags.map(t=><li className="tag" key={t}>{t}</li>)}</ul></div></article>)}
+  </section>;
+}

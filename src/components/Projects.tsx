@@ -1,0 +1,28 @@
+import { ArrowUpRight, FileText, Check, ArrowRight, Wind, SearchCheck } from 'lucide-react';
+import { projects } from '../data';
+
+function ProjectVisual({ id }: { id: string }) {
+  if (id === 'docuai') return <figure className="project-visual screenshot-visual"><div className="visual-label">DOCUAI / DOCUMENT WORKSPACE</div><img className="w-full rounded-lg border border-black/10 shadow-xl" src="./images/docuai.png" width="1918" height="855" alt="DocuAI document preview, generated answer, and supporting page references" loading="lazy" /><figcaption>Application screenshot · source-linked answers</figcaption></figure>;
+  if (id === 'student') return <figure className="project-visual student-visual"><div className="visual-label">STUDENT PROFILE / INPUT FORM</div><div className="student-crop"><img src="./images/student-performance.png" width="1812" height="979" alt="Student profile inputs and Generate Prediction button" loading="lazy" /></div><figcaption>Application screenshot · input form detail</figcaption></figure>;
+  if (id === 'sales') return <div className="project-visual"><div className="visual-label">THE FORECASTING QUESTION</div><p className="visual-headline">What happens<br/>after day one?</p><div className="my-8 flex items-center gap-3"><div className="flow-box">History<span>Observed values</span></div><ArrowRight size={20} className="shrink-0 text-plasma" /><div className="flow-box">Forecast<span>Future estimates</span></div></div><p className="text-sm leading-relaxed text-zinc-600">When predictions become history,<br/>errors can accumulate.</p></div>;
+  if (id === 'pdf') return <div className="project-visual"><div className="visual-label">DOCUMENT → SUMMARY</div><div className="mb-7 mt-8 flex items-center gap-5 text-plasma"><FileText size={44} strokeWidth={1.2} /><span className="h-px flex-1 bg-gradient-to-r from-plasma to-flame" /><span className="rounded-xl border border-flame/20 bg-white px-4 py-3 font-mono text-sm text-flame">PDF / TXT</span></div><p className="visual-headline">The key ideas.<br/>In fewer words.</p><p className="mt-5 text-sm text-zinc-600">Upload · Summarize · Export</p></div>;
+  if (id === 'aqi') return <div className="project-visual"><div className="visual-label">AIR QUALITY / THROUGH TIME</div><Wind size={52} strokeWidth={1} className="my-7 text-plasma" /><p className="visual-headline">Patterns in the past.<br/>Questions ahead.</p><p className="mt-6 max-w-sm text-sm leading-relaxed text-zinc-600">Exploring what historical air quality can tell us about the next observation.</p></div>;
+  return <div className="project-visual"><div className="visual-label">LOOK BEFORE YOU MODEL</div><SearchCheck size={32} strokeWidth={1.4} className="mb-5 mt-7 text-flame" />{['Missing values', 'Skewness & kurtosis', 'IQR outliers', 'Zero-variance features'].map((item, i) => <div className="flex items-center justify-between gap-3 border-b border-black/[0.07] py-3 text-sm" key={item}><span><span className="mr-4 font-mono text-xs text-zinc-400">0{i+1}</span>{item}</span><Check size={15} className="text-plasma" /></div>)}<p className="mt-4 text-xs text-zinc-500">Inspection capabilities</p></div>;
+}
+export default function Projects() {
+  return <section id="work" className="section-shell">
+    <div className="section-heading"><div><p className="eyebrow">01 / Selected work</p><h2>Curiosity,<br/><span className="gradient-text">turned into code.</span></h2></div><p className="max-w-sm text-base leading-relaxed text-zinc-600">Six projects across machine learning, generative AI, and data tooling. Built to explore a problem, test an idea, and learn.</p></div>
+    <nav aria-label="Project index" className="project-index">{projects.map((p,i) => <a href={`#project-${p.id}`} key={p.id}><span className="font-mono text-xs text-plasma">0{i+1}</span>{['Document intelligence','Student performance','Sales forecasting','PDF summarizer','AQI forecasting','Data health inspector'][i]}</a>)}</nav>
+    <div>{projects.map((p,i) => <article key={p.id} id={`project-${p.id}`} className="project-row" aria-labelledby={`${p.id}-title`}>
+      <div className="mb-8 flex items-center gap-4"><span className="font-mono text-sm text-flame">0{i+1}</span><span className="h-px flex-1 bg-black/[0.08]" /><span className="font-mono text-xs uppercase tracking-wider text-zinc-500">{p.category}</span></div>
+      <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-20">
+        <div><h3 id={`${p.id}-title`} className="text-[clamp(1.8rem,3vw,2.65rem)] font-semibold leading-[1.08] tracking-tight">{p.title}</h3><p className="mb-4 mt-5 text-xl font-medium leading-snug">{p.line}</p><p className="max-w-lg text-base leading-relaxed text-zinc-600">{p.description}</p>
+          <ul aria-label="Project technologies" className="mb-7 mt-6 flex flex-wrap gap-2">{p.tags.map(tag => <li className="tag" key={tag}>{tag}</li>)}</ul>
+          <div className="flex flex-wrap items-center gap-5">{p.demo && <a className="button-dark" href={p.demo} target="_blank" rel="noopener noreferrer" aria-label={`${p.title} live demo`}>Explore live demo <ArrowUpRight size={16} /></a>}{p.source && <a className="text-link" href={p.source} target="_blank" rel="noopener noreferrer" aria-label={`${p.title} source code`}>{p.demo ? 'Source code' : 'Explore repository'} <ArrowUpRight size={15} /></a>}</div>
+          <details className="project-detail"><summary>{p.id === 'inspector' ? 'What it checks' : 'Behind the project'}<span aria-hidden>+</span></summary><p>{p.detail}</p></details>
+        </div>
+        <ProjectVisual id={p.id} />
+      </div>
+    </article>)}</div>
+  </section>;
+}
