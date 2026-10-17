@@ -1,28 +1,277 @@
-import { ArrowUpRight, FileText, Check, ArrowRight, Wind, SearchCheck } from 'lucide-react';
-import { projects } from '../data';
+import {
+  manifestList,
+  featuredProject,
+  rowProjects,
+  alsoBuiltProject,
+} from '../data';
 
-function ProjectVisual({ id }: { id: string }) {
-  if (id === 'docuai') return <figure className="project-visual screenshot-visual"><div className="visual-label">DOCUAI / DOCUMENT WORKSPACE</div><img className="w-full rounded-lg border border-black/10 shadow-xl" src="./images/docuai.png" width="1918" height="855" alt="DocuAI document preview, generated answer, and supporting page references" loading="lazy" /><figcaption>Application screenshot · source-linked answers</figcaption></figure>;
-  if (id === 'student') return <figure className="project-visual student-visual"><div className="visual-label">STUDENT PROFILE / INPUT FORM</div><div className="student-crop"><img src="./images/student-performance.png" width="1812" height="979" alt="Student profile inputs and Generate Prediction button" loading="lazy" /></div><figcaption>Application screenshot · input form detail</figcaption></figure>;
-  if (id === 'sales') return <div className="project-visual"><div className="visual-label">THE FORECASTING QUESTION</div><p className="visual-headline">What happens<br/>after day one?</p><div className="my-8 flex items-center gap-3"><div className="flow-box">History<span>Observed values</span></div><ArrowRight size={20} className="shrink-0 text-plasma" /><div className="flow-box">Forecast<span>Future estimates</span></div></div><p className="text-sm leading-relaxed text-zinc-600">When predictions become history,<br/>errors can accumulate.</p></div>;
-  if (id === 'pdf') return <div className="project-visual"><div className="visual-label">DOCUMENT → SUMMARY</div><div className="mb-7 mt-8 flex items-center gap-5 text-plasma"><FileText size={44} strokeWidth={1.2} /><span className="h-px flex-1 bg-gradient-to-r from-plasma to-flame" /><span className="rounded-xl border border-flame/20 bg-white px-4 py-3 font-mono text-sm text-flame">PDF / TXT</span></div><p className="visual-headline">The key ideas.<br/>In fewer words.</p><p className="mt-5 text-sm text-zinc-600">Upload · Summarize · Export</p></div>;
-  if (id === 'aqi') return <div className="project-visual"><div className="visual-label">AIR QUALITY / THROUGH TIME</div><Wind size={52} strokeWidth={1} className="my-7 text-plasma" /><p className="visual-headline">Patterns in the past.<br/>Questions ahead.</p><p className="mt-6 max-w-sm text-sm leading-relaxed text-zinc-600">Exploring what historical air quality can tell us about the next observation.</p></div>;
-  return <div className="project-visual"><div className="visual-label">LOOK BEFORE YOU MODEL</div><SearchCheck size={32} strokeWidth={1.4} className="mb-5 mt-7 text-flame" />{['Missing values', 'Skewness & kurtosis', 'IQR outliers', 'Zero-variance features'].map((item, i) => <div className="flex items-center justify-between gap-3 border-b border-black/[0.07] py-3 text-sm" key={item}><span><span className="mr-4 font-mono text-xs text-zinc-400">0{i+1}</span>{item}</span><Check size={15} className="text-plasma" /></div>)}<p className="mt-4 text-xs text-zinc-500">Inspection capabilities</p></div>;
-}
 export default function Projects() {
-  return <section id="work" className="section-shell">
-    <div className="section-heading"><div><p className="eyebrow">01 / Selected work</p><h2>Curiosity,<br/><span className="gradient-text">turned into code.</span></h2></div><p className="max-w-sm text-base leading-relaxed text-zinc-600">Six projects across machine learning, generative AI, and data tooling. Built to explore a problem, test an idea, and learn.</p></div>
-    <nav aria-label="Project index" className="project-index">{projects.map((p,i) => <a href={`#project-${p.id}`} key={p.id}><span className="font-mono text-xs text-plasma">0{i+1}</span>{['Document intelligence','Student performance','Sales forecasting','PDF summarizer','AQI forecasting','Data health inspector'][i]}</a>)}</nav>
-    <div>{projects.map((p,i) => <article key={p.id} id={`project-${p.id}`} className="project-row" aria-labelledby={`${p.id}-title`}>
-      <div className="mb-8 flex items-center gap-4"><span className="font-mono text-sm text-flame">0{i+1}</span><span className="h-px flex-1 bg-black/[0.08]" /><span className="font-mono text-xs uppercase tracking-wider text-zinc-500">{p.category}</span></div>
-      <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-20">
-        <div><h3 id={`${p.id}-title`} className="text-[clamp(1.8rem,3vw,2.65rem)] font-semibold leading-[1.08] tracking-tight">{p.title}</h3><p className="mb-4 mt-5 text-xl font-medium leading-snug">{p.line}</p><p className="max-w-lg text-base leading-relaxed text-zinc-600">{p.description}</p>
-          <ul aria-label="Project technologies" className="mb-7 mt-6 flex flex-wrap gap-2">{p.tags.map(tag => <li className="tag" key={tag}>{tag}</li>)}</ul>
-          <div className="flex flex-wrap items-center gap-5">{p.demo && <a className="button-dark" href={p.demo} target="_blank" rel="noopener noreferrer" aria-label={`${p.title} live demo`}>Explore live demo <ArrowUpRight size={16} /></a>}{p.source && <a className="text-link" href={p.source} target="_blank" rel="noopener noreferrer" aria-label={`${p.title} source code`}>{p.demo ? 'Source code' : 'Explore repository'} <ArrowUpRight size={15} /></a>}</div>
-          <details className="project-detail"><summary>{p.id === 'inspector' ? 'What it checks' : 'Behind the project'}<span aria-hidden>+</span></summary><p>{p.detail}</p></details>
+  return (
+    <section className="sec pad" id="work">
+      {/* Section Header */}
+      <div className="head rv in">
+        <div>
+          <span className="idx">01 // SELECTED WORK</span>
+          <h2>
+            BUILDING
+            <br />
+            IDEAS INTO
+            <br />
+            <span style={{ color: 'var(--cyan)' }}>SYSTEMS.</span>
+          </h2>
         </div>
-        <ProjectVisual id={p.id} />
+        <p>
+          Applications, retrieval pipelines, and machine learning models created with Python,
+          vector databases, and modern frameworks.
+        </p>
       </div>
-    </article>)}</div>
-  </section>;
+
+      {/* Manifest Index Table */}
+      <div className="manifest rv in" style={{ marginBottom: 'clamp(40px, 6vw, 80px)' }}>
+        {manifestList.map((item) => (
+          <a href={item.href} key={item.href}>
+            <em>{item.num}</em>
+            <strong>{item.title}</strong>
+            <span>{item.tag}</span>
+          </a>
+        ))}
+      </div>
+
+      {/* Featured Project 01: RAG */}
+      <div className="feat rv in" id={featuredProject.id}>
+        <div>
+          <div className="pmeta">
+            <span className="no">{featuredProject.num}</span>
+            <span className="flag">{featuredProject.flag}</span>
+            <span>{featuredProject.category}</span>
+          </div>
+          <h3
+            className="ptitle"
+            dangerouslySetInnerHTML={{
+              __html: featuredProject.titleHtml || featuredProject.title,
+            }}
+          />
+          <p className="prole">{featuredProject.role}</p>
+          <p
+            className="ptxt"
+            dangerouslySetInnerHTML={{ __html: featuredProject.descriptionHtml }}
+          />
+          <div className="tags">
+            {featuredProject.tags.map((tag) => (
+              <span className="tag" key={tag}>
+                {tag}
+              </span>
+            ))}
+          </div>
+          <div style={{ marginTop: '24px', display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
+            {featuredProject.demo && (
+              <a
+                className="cta"
+                href={featuredProject.demo}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {featuredProject.demoLabel || 'Live Demo ↗'}
+              </a>
+            )}
+            {featuredProject.source && (
+              <a
+                className="cta alt"
+                href={featuredProject.source}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {featuredProject.sourceLabel || 'View Code ↗'}
+              </a>
+            )}
+          </div>
+        </div>
+
+        {/* RAG Architecture SVG Diagram */}
+        <div className="arch arch-wrap rv in">
+          <svg viewBox="0 0 460 270" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="10" y="10" width="130" height="60" rx="4" fill="#0C0E14" stroke="#262A33" />
+            <text x="22" y="34" fill="#7C5CFF" fontFamily="monospace" fontSize="10" fontWeight="bold">
+              INPUT DOCS
+            </text>
+            <text x="22" y="52" fill="#F2F2F0" fontFamily="monospace" fontSize="11">
+              PDF / Text Files
+            </text>
+
+            <path d="M140 40 H180" stroke="#7C5CFF" strokeWidth="1.5" className="flow" />
+
+            <rect x="180" y="10" width="130" height="60" rx="4" fill="#0C0E14" stroke="#262A33" />
+            <text x="192" y="34" fill="#00E5FF" fontFamily="monospace" fontSize="10" fontWeight="bold">
+              INDEXING
+            </text>
+            <text x="192" y="52" fill="#F2F2F0" fontFamily="monospace" fontSize="11">
+              Chunk & Embed
+            </text>
+
+            <path d="M310 40 H350" stroke="#00E5FF" strokeWidth="1.5" className="flow" />
+
+            <rect x="350" y="10" width="100" height="60" rx="4" fill="#0C0E14" stroke="#7C5CFF" />
+            <text x="360" y="34" fill="#7C5CFF" fontFamily="monospace" fontSize="10" fontWeight="bold">
+              VECTOR DB
+            </text>
+            <text x="360" y="52" fill="#00E5FF" fontFamily="monospace" fontSize="11">
+              Similarity
+            </text>
+
+            <path d="M400 70 V120" stroke="#00E5FF" strokeWidth="1.5" className="flow" />
+
+            <rect x="270" y="120" width="180" height="60" rx="4" fill="#0C0E14" stroke="#262A33" />
+            <text x="282" y="144" fill="#FF5CA8" fontFamily="monospace" fontSize="10" fontWeight="bold">
+              CONTEXT RETRIEVAL
+            </text>
+            <text x="282" y="162" fill="#F2F2F0" fontFamily="monospace" fontSize="11">
+              Top-K Context Chunks
+            </text>
+
+            <path d="M270 150 H180" stroke="#FF5CA8" strokeWidth="1.5" className="flow" />
+
+            <rect x="10" y="120" width="170" height="60" rx="4" fill="#0C0E14" stroke="#3DDC84" />
+            <text x="22" y="144" fill="#3DDC84" fontFamily="monospace" fontSize="10" fontWeight="bold">
+              LLM GENERATION
+            </text>
+            <text x="22" y="162" fill="#F2F2F0" fontFamily="monospace" fontSize="11">
+              Prompt + Context
+            </text>
+
+            <path d="M95 180 V210" stroke="#3DDC84" strokeWidth="1.5" className="flow" />
+
+            <rect
+              x="10"
+              y="210"
+              width="440"
+              height="50"
+              rx="4"
+              fill="#08090C"
+              stroke="#7C5CFF"
+              strokeDasharray="3 3"
+            />
+            <text x="22" y="232" fill="#00E5FF" fontFamily="monospace" fontSize="10" fontWeight="bold">
+              OUTPUT RESPONSE
+            </text>
+            <text x="22" y="248" fill="#8A8F99" fontFamily="monospace" fontSize="10">
+              Grounded Answer + Verifiable Citation Links
+            </text>
+          </svg>
+          <div className="cap">
+            <span>FIG 1.1 — DOCUMENT INTELLIGENCE PIPELINE</span>
+            <span>RAG ARCHITECTURE</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Row Projects */}
+      {rowProjects.map((p) => (
+        <div className="row rv in" id={p.id} key={p.id}>
+          <div className="bignum">{p.num}</div>
+          <div>
+            <div className="pmeta">
+              <span className="no">{p.flag}</span>
+              <span>{p.category}</span>
+            </div>
+            <h3
+              style={{
+                fontSize: 'clamp(24px, 3.5vw, 42px)',
+                fontFamily: 'var(--disp)',
+                fontWeight: 700,
+                margin: '12px 0',
+              }}
+            >
+              {p.title}
+            </h3>
+            <p
+              className="ptxt"
+              dangerouslySetInnerHTML={{ __html: p.descriptionHtml }}
+            />
+
+            {p.pipeline && (
+              <div className="pipe">
+                {p.pipeline.map((step, idx) => (
+                  <span key={step} style={{ display: 'inline-flex', alignItems: 'center', gap: '5px' }}>
+                    <i className={idx % 2 === 0 ? 'hot' : ''}>{step}</i>
+                    {idx < p.pipeline!.length - 1 && <u />}
+                  </span>
+                ))}
+              </div>
+            )}
+
+            {p.tags && p.tags.length > 0 && (
+              <div className="tags" style={{ marginTop: '16px' }}>
+                {p.tags.map((tag) => (
+                  <span className="tag" key={tag}>
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <div className="side">
+            <div className="spec">
+              {p.specs.map((s) => (
+                <div key={s.label}>
+                  <em>{s.label}</em>
+                  <b>
+                    {s.link ? (
+                      <a
+                        href={s.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{
+                          color:
+                            s.accent === 'cyan'
+                              ? 'var(--cyan)'
+                              : s.accent === 'violet'
+                              ? 'var(--violet)'
+                              : 'var(--white)',
+                        }}
+                      >
+                        {s.value}
+                      </a>
+                    ) : (
+                      s.value
+                    )}
+                  </b>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      ))}
+
+      {/* Also Built Section (Project 06: Data Health Inspector) */}
+      <div
+        className="also rv in"
+        id={alsoBuiltProject.id}
+        style={{ marginTop: 'clamp(40px, 6vw, 80px)' }}
+      >
+        <div>
+          <span className="lbl">{alsoBuiltProject.badge}</span>
+          <h4>{alsoBuiltProject.title}</h4>
+          <p>{alsoBuiltProject.description}</p>
+          {alsoBuiltProject.source && (
+            <div style={{ marginTop: '16px' }}>
+              <a
+                className="cta alt"
+                href={alsoBuiltProject.source}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ padding: '8px 16px', fontSize: '11px' }}
+              >
+                GitHub Profile / Code ↗
+              </a>
+            </div>
+          )}
+        </div>
+        <div>
+          <span className="lbl">KEY CAPABILITIES</span>
+          <p>{alsoBuiltProject.capabilities}</p>
+        </div>
+      </div>
+    </section>
+  );
 }
