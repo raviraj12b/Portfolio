@@ -36,20 +36,20 @@ export default function Process() {
           <div>
             <div className="mb-6 flex items-center gap-3">
               <span className="h-px w-10 bg-gradient-to-r from-flame to-plasma" />
-              <span className="font-mono text-xs uppercase tracking-[0.28em] text-zinc-500">
-                method
+              <span className="font-mono text-xs uppercase tracking-[0.28em] text-zinc-400">
+                05 / Method
               </span>
             </div>
-            <h2 className="max-w-2xl text-[clamp(2.1rem,3.6vw,3.4rem)] font-semibold leading-[1.02] tracking-[-0.035em] text-ink">
+            <h2 className="max-w-2xl text-[clamp(2.1rem,3.6vw,3.4rem)] font-semibold leading-[1.02] tracking-[-0.035em] text-zinc-100">
               From raw signal to{" "}
-              <span className="bg-gradient-to-r from-flame to-plasma bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-flame via-[#ec4899] to-plasma bg-clip-text text-transparent">
                 usable application
               </span>
               .
             </h2>
           </div>
           <p className="max-w-xs font-mono text-xs uppercase leading-relaxed tracking-[0.14em] text-zinc-400">
-            How I approach my projects
+            Engineering approach
           </p>
         </motion.div>
 
@@ -70,17 +70,17 @@ export default function Process() {
               }`}
             >
               <div className="flex items-start justify-between">
-                <span className="text-6xl font-bold tracking-[-0.04em] text-zinc-100">
+                <span className="text-6xl font-bold tracking-[-0.04em] text-zinc-800">
                   {s.n}
                 </span>
-                <span className="grid size-10 place-items-center rounded-xl border border-black/[0.06] bg-white text-ink shadow-[0_8px_20px_-8px_rgba(13,12,18,0.12)]">
-                  <s.icon size={17} strokeWidth={1.8} />
+                <span className="grid size-11 place-items-center rounded-xl border border-white/[0.08] bg-[#0e1017] text-plasma shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
+                  <s.icon size={18} strokeWidth={1.8} />
                 </span>
               </div>
-              <h3 className="mt-6 text-xl font-semibold tracking-[-0.02em] text-ink">
+              <h3 className="mt-6 text-xl font-semibold tracking-[-0.02em] text-zinc-100">
                 {s.title}
               </h3>
-              <p className="mt-3 max-w-sm text-base leading-[1.7] text-zinc-500">
+              <p className="mt-3 max-w-sm text-sm leading-[1.7] text-zinc-400">
                 {s.body}
               </p>
             </motion.div>
