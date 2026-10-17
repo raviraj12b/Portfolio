@@ -1,24 +1,107 @@
-import { useState } from 'react';
-import { MotionConfig, useReducedMotion } from 'framer-motion';
-import { Pause, Play } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
 import Nav from './components/Nav';
 import Hero from './components/Hero';
 import Marquee from './components/Marquee';
+import Facts from './components/Facts';
 import Projects from './components/Projects';
 import About from './components/About';
 import Experience from './components/Experience';
-import Process from './components/Process';
+import Education from './components/Education';
 import Footer from './components/Footer';
-import Cursor from './components/Cursor';
+import CommandPalette from './components/CommandPalette';
+
 export default function App() {
-  const reduced = useReducedMotion();
-  const [paused,setPaused] = useState(false);
-  const stopMotion = paused || !!reduced;
-  return <MotionConfig reducedMotion={stopMotion ? 'always' : 'user'}><div className={`relative min-h-screen bg-[#fdfdfd] text-ink antialiased ${stopMotion ? 'motion-paused' : ''}`}>
-    <a className="skip-link" href="#main">Skip to content</a>
-    <div className="grid-bg-page pointer-events-none fixed inset-0" aria-hidden />
-    {!stopMotion && <Cursor />}
-    <Nav />
-    <div className="relative"><main id="main" tabIndex={-1}><Hero paused={stopMotion}/><div className="relative mx-auto -mt-12 flex max-w-[1440px] justify-end px-6 pb-4 md:px-10"><button type="button" className="motion-control" disabled={!!reduced} aria-pressed={stopMotion} onClick={() => setPaused(!paused)}>{stopMotion ? <Play size={13}/> : <Pause size={13}/>} {reduced ? 'Reduced motion enabled' : paused ? 'Resume motion' : 'Pause motion'}</button></div><Marquee /><Projects /><About /><Experience /><Process /></main><Footer /></div>
-  </div></MotionConfig>;
+  const [paletteOpen, setPaletteOpen] = useState(false);
+  const progRef = useRef<HTMLDivElement | null>(null);
+
+  // Scroll Progress Bar
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!progRef.current) return;
+      const total = document.documentElement.scrollHeight - window.innerHeight;
+      if (total <= 0) {
+        progRef.current.style.width = '0%';
+        return;
+      }
+      const current = window.scrollY;
+      const pct = Math.min(100, Math.max(0, (current / total) * 100));
+      progRef.current.style.width = `${pct}%`;
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Global Keyboard Shortcut for Command Palette (/ or Cmd/Ctrl+K)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const activeTag = document.activeElement?.tagName.toLowerCase();
+      const isInput = activeTag === 'input' || activeTag === 'textarea';
+
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        setPaletteOpen((prev) => !prev);
+      } else if (e.key === '/' && !isInput && !paletteOpen) {
+        e.preventDefault();
+        setPaletteOpen(true);
+      } else if (e.key === 'Escape' && paletteOpen) {
+        setPaletteOpen(false);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [paletteOpen]);
+
+  // Scroll Reveal Observer (.rv -> .in)
+  useEffect(() => {
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('in');
+            }
+          });
+        },
+        { threshold: 0.08 }
+      );
+
+      document.querySelectorAll('.rv').forEach((el) => observer.observe(el));
+      return () => observer.disconnect();
+    } else {
+      document.querySelectorAll('.rv').forEach((el) => el.classList.add('in'));
+    }
+  }, []);
+
+  return (
+    <>
+      {/* Background Texture & Scroll Progress */}
+      <div className="grain" />
+      <div className="prog" id="prog" ref={progRef} />
+
+      {/* Top Navigation Bar */}
+      <Nav onOpenPalette={() => setPaletteOpen(true)} />
+
+      {/* Main Content Sections */}
+      <main>
+        <Hero />
+        <Marquee />
+        <Facts />
+        <Projects />
+        <div className="rule" />
+        <About />
+        <div className="rule" />
+        <Experience />
+        <div className="rule" />
+        <Education />
+        <div className="rule" />
+        <Footer />
+      </main>
+
+      {/* Command Palette Modal */}
+      <CommandPalette isOpen={paletteOpen} onClose={() => setPaletteOpen(false)} />
+    </>
+  );
 }
